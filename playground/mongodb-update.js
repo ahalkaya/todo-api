@@ -29,28 +29,25 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
     //             console.log('Unable to update todo', err);
     //         }
     //     );
-    
+
     db.collection('Users')
-        .findOneAndUpdate(
-            {
-                _id: new ObjectID('599099b44c97c205a55e17db')
+        .findOneAndUpdate({
+            _id: new ObjectID('599099b44c97c205a55e17db')
+        }, {
+            $set: {
+                name: 'Alihan'
             },
-            {
-                $set: { name: 'Alihan' },
-                $inc: { age: -1 }
-            },
-            {
-                returnOriginal: false
+            $inc: {
+                age: -1
             }
-        )
-        .then(
-            (result) => {
-                console.log(result);
-            }, 
-            (err) => {
-                console.log('Unable to update user', err);
-            }
-        );
+        }, {
+            returnOriginal: false
+        })
+        .then((result) => {
+            console.log(result);
+        }, (err) => {
+            console.log('Unable to update user', err);
+        });
 
     // db.close();
 });

@@ -1,29 +1,44 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-let { mongoose } = require('./db/mongoose');
-let { Todo } = require('./models/todo');
-let { User } = require('./models/user');
+let {
+    mongoose
+} = require('./db/mongoose');
+let {
+    Todo
+} = require('./models/todo');
+let {
+    User
+} = require('./models/user');
 
 let app = express();
 
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
-    // todo 
     let todo = new Todo({
         text: req.body.text
     });
-    // save
-    todo.save()
-        .then(
-            (doc) => {
-                res.send(doc);
-            }, 
-            (err) => {
-                res.status(400).send(err.message);
-            }
-        );
+
+    todo
+        .save()
+        .then((doc) => {
+            res.send(doc);
+        }, (err) => {
+            res.status(400).send(err.message);
+        });
+});
+
+app.get('/todos', (req, res) => {
+    Todo
+        .find()
+        .then((todos) => {
+            res.send({
+                todos
+            });
+        }, (e) => {
+            res.status(400).send(e);
+        });
 });
 
 app.listen(3000, () => {
@@ -32,4 +47,4 @@ app.listen(3000, () => {
 
 module.exports = {
     app
-}
+};
