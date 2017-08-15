@@ -2,15 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
-let {
-    mongoose
-} = require('./db/mongoose');
-let {
-    Todo
-} = require('./models/todo');
-let {
-    User
-} = require('./models/user');
+let {mongoose} = require('./db/mongoose');
+let {Todo} = require('./models/todo');
+let {User} = require('./models/user');
 
 let app = express();
 const port = process.env.PORT || 3000;
@@ -66,7 +60,7 @@ app.delete('/todos/:id', (req, res) => {
     let id = req.params.id;
     let isIdValid = ObjectID.isValid(id);
     if (!isIdValid) {
-        return res.status(400).send();
+        return res.status(404).send();
     }
 
     Todo
@@ -75,9 +69,9 @@ app.delete('/todos/:id', (req, res) => {
             if (!todo) {
                 return res.status(404).send();
             }
-            res.status(200).send({todo});
+            res.send({todo});
         }).catch((e) => {
-            res.status(404).send();
+            res.status(400).send();
         });
 });
 
